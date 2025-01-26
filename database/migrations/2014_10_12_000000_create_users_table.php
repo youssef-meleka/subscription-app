@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('customer'); // admin/customer
             $table->string('status')->default('active'); // active/inactive
-            $table->string('stripe_id')->nullable(); // For Cashier
-            $table->string('card_brand')->nullable();
-            $table->string('card_last_four')->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

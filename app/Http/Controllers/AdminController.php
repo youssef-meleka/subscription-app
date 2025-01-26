@@ -9,14 +9,15 @@ class AdminController extends Controller
 {
     public function listCustomers (Request $request)
     {
-        $query = User::where('role', 'customer');
+        $search = $request->query('search');
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('email', 'like', '%' . $request->search . '%');
-        }
+        $customers = User::where('role', 'customer')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                             ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->paginate(10);
 
-        $customers = $query->get();
         return response()->json($customers);
     }
 
