@@ -7,7 +7,7 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function listCustomers (Request $request)
+    public function listCustomers(Request $request)
     {
         $search = $request->query('search');
 
@@ -18,33 +18,39 @@ class AdminController extends Controller
             })
             ->paginate(10);
 
-        return response()->json($customers);
+        return view('admin.customers.index', compact('customers'));
     }
 
-    public function updateCustomer (Request $request, $id)
+    public function editCustomer($id)
+    {
+        $customer = User::findOrFail($id);
+        return view('admin.customers.edit', compact('customer'));
+    }
+
+    public function updateCustomer(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        return response()->json($user);
+        return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully');
     }
 
-    public function deactivateCustomer ($id)
+    public function deactivateCustomer($id)
     {
         $user = User::findOrFail($id);
         $user->update(['status' => 'inactive']);
-        return response()->json(['message' => 'User deactivated']);
+        return redirect()->route('admin.customers.index')->with('success', 'Customer deactivated successfully');
     }
 
-    public function reactivateCustomer ($id)
+    public function reactivateCustomer($id)
     {
         $user = User::findOrFail($id);
         $user->update(['status' => 'active']);
-        return response()->json(['message' => 'User reactivated']);
+        return redirect()->route('admin.customers.index')->with('success', 'Customer reactivated successfully');
     }
 
-    public function deleteCustomer ($id)
+    public function deleteCustomer($id)
     {
         User::destroy($id);
-        return response()->json(['message' => 'User deleted']);
+        return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully');
     }
 }

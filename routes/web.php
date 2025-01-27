@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/customers', [AdminController::class, 'listCustomers'])->name('admin.customers.index');
+Route::get('/admin/customers/{id}/edit', [AdminController::class, 'editCustomer'])->name('admin.customers.edit');
+Route::put('/admin/customers/{id}', [AdminController::class, 'updateCustomer'])->name('admin.customers.update');
+Route::post('/admin/customers/{id}/deactivate', [AdminController::class, 'deactivateCustomer'])->name('admin.customers.deactivate');
+Route::post('/admin/customers/{id}/reactivate', [AdminController::class, 'reactivateCustomer'])->name('admin.customers.reactivate');
+Route::delete('/admin/customers/{id}', [AdminController::class, 'deleteCustomer'])->name('admin.customers.destroy');
