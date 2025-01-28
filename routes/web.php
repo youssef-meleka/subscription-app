@@ -24,5 +24,5 @@ Route::get('/payment', [SubscriptionController::class, 'showPaymentForm'])->name
 // Handle subscription
 Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
 
-// Success page
-Route::view('/success', 'success')->name('success');
+// Success page - print invoice
+Route::view('/success', 'invoice')->name('success');
